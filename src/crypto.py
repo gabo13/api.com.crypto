@@ -14,8 +14,13 @@ import hmac
 import hashlib
 import time
 
+import requests
+import pprint
+
 API_KEY = "API_KEY"
 SECRET_KEY = "SECRET_KEY"
+
+UAT_SANDBOX = "https://uat-api.3ona.co/exchange/v1/"
 
 req = {
     "id": 14,
@@ -77,3 +82,10 @@ req['sig'] = hmac.new(
     msg=bytes(payload_str, 'utf-8'),
     digestmod=hashlib.sha256
 ).hexdigest()
+
+def get_instruments():
+    response = requests.get(UAT_SANDBOX+"public/get-instruments")
+    return response.json()
+
+if __name__ == "__main__":
+    pprint.pprint(get_instruments())
